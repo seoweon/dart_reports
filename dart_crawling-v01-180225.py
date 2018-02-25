@@ -1,9 +1,9 @@
 
 # coding: utf-8
 
-# # DART.fss.or.kr에서 파일 다운로드하기
+# # DART.fss.or.kr에서 역대 사업보고서 다운로드하기
 
-# In[1]:
+# In[ ]:
 
 #json을 읽기 위해서 우선 requests가 필요하고...
 import requests
@@ -19,34 +19,35 @@ get_ipython().magic('autoreload 2')
 from utils import *
 
 #위에 있는 download_file util 대신 curl을 이용할까 했으나 한국말을 못알아들어서 포기...
-#from subprocess import call
+from subprocess import call
 
 
 # API Key를 넣어주세요. [인증키 신청](http://dart.fss.or.kr/dsap001/apikeyManagement.do;jsessionid=Bs7AWiSzD8YmbBx0Zg3WoEixviKFJ7tL2OmeavY5lXpuYNh4MBmNjvvrgldaazhx.dart2_servlet_engine2)은 DART 계정을 만든 후 간단하게 할 수 있습니다
 
-# In[2]:
+# In[ ]:
 
-API_KEY = open('api_key.txt','r').read()
+with open('api_key.txt','r') as f:
+    API_KEY = f.read()
 
 
 # ## 1. 원하는 회사의 사업보고서 링크 목록을 가져와봅시다. 
 
 # #### 1) 회사의 종목코드를 가져오세요. (엑셀 출처: [한국거래소 전자공시 홈페이지](http://kind.krx.co.kr/corpgeneral/corpList.do?method=loadInitPage))
 
-# In[3]:
+# In[ ]:
 
 #회사 정보가 들어있는 엑셀을 읽어오되, 종목코드는 int가 아닌 str로 가져와야 합니다 (안 그러면 앞의 0이 지워져서 나오게 돼요)
 #엑셀 source: http://kind.krx.co.kr/corpgeneral/corpList.do?method=loadInitPage
 company_codes = pd.read_excel('company_codes.xlsx',converters={'종목코드':str})
 
 
-# In[5]:
+# In[ ]:
 
 #회사명 입력란을 만들어요
 name_input = input('회사명을 입력해주세요: ')
 
 
-# In[6]:
+# In[ ]:
 
 #입력된 회사명이 없으면 진행이 안돼요
 #CAVEAT: CJ같이 단독으로도 회사명이 존재하지만 CJ오쇼핑 같이 이게 포함된 회사명이 있는 경우, 찾아주지는 못합니다
@@ -62,7 +63,7 @@ print(name_input+" 종목코드: "+code)
 
 # #### 2) 보고서 목록 URL을 생성하세요
 
-# In[7]:
+# In[ ]:
 
 #t시작날짜는 최초의 기업이 상장한 날짜인 1956년 3월보다 이전으로 잡았습니다
 start_date = '19560101'
@@ -70,20 +71,20 @@ start_date = '19560101'
 bsn_tp = 'A001'
 
 
-# In[8]:
+# In[ ]:
 
 url = "http://dart.fss.or.kr/api/search.json?auth="+API_KEY+"&crp_cd="+code+"&start_dt="+start_date+"&bsn_tp="+bsn_tp+"&fin_rpt=Y&page_set=100"
 
 
 # #### 3) 개별 보고서 URL을 생성하세요
 
-# In[9]:
+# In[ ]:
 
 #json 값을 추출합시다
 a = requests.get(url).json()
 
 
-# In[10]:
+# In[ ]:
 
 #각 사업보고서 당 리스트가 제대로 생성되는 지 봅시다. 하나도 없으면 코드 돌려봤자 아무것도 다운 안 됨
 urldict = {}
@@ -99,7 +100,7 @@ for row in a['list']:
 
 # ## 2. 각 사업보고서의 첨부파일 리스트를 확인하고 다운로드합시다
 
-# In[11]:
+# In[ ]:
 
 #카운터 선정
 n=1
@@ -138,6 +139,16 @@ for key, value in urldict.items():
             #pass
         #call(['curl',link,'-o',key+'/'+key2])
     n+=1
+
+
+# #### 마지막으로 파일 탐색기를 열어 다운로드받은 파일을 확인합니다. 
+
+# In[ ]:
+
+yesno = input('파일 다운로드가 완료되었습니다. 파일 탐색기를 열어 확인하시겠습니까? (y/n)  ')
+
+if yesno.startswith('y'):
+    call(['explorer','dart_'+name_input])
 
 
 # In[ ]:
