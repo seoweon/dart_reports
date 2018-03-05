@@ -21,6 +21,8 @@ from utils import *
 #위에 있는 download_file util 대신 curl을 이용할까 했으나 한국말을 못알아들어서 포기...
 from subprocess import call
 
+from fake_useragent import UserAgent
+
 
 # API Key를 넣어주세요. [인증키 신청](http://dart.fss.or.kr/dsap001/apikeyManagement.do;jsessionid=Bs7AWiSzD8YmbBx0Zg3WoEixviKFJ7tL2OmeavY5lXpuYNh4MBmNjvvrgldaazhx.dart2_servlet_engine2)은 DART 계정을 만든 후 간단하게 할 수 있습니다
 
@@ -78,10 +80,11 @@ url = "http://dart.fss.or.kr/api/search.json?auth="+API_KEY+"&crp_cd="+code+"&st
 
 # #### 3) 개별 보고서 URL을 생성하세요
 
-# In[ ]:
+ua = UserAgent()
+headers = {'User-Agent':ua.chrome}
 
 #json 값을 추출합시다
-a = requests.get(url).json()
+a = requests.get(url,headers=headers).json()
 
 
 # In[ ]:
@@ -107,7 +110,7 @@ n=1
 
 for key, value in urldict.items(): 
     #dcm_no 값을 알아야 다운로드 링크에 접근할 수 있는데, 알 방법이 링크에서 바로 가져오는 방법밖에 없으므로 xpath을 활용해서 알아봅시다
-    test = requests.get(value)
+    test = requests.get(value,headers=headers)
     tree = html.fromstring(test.content)
     testpath = tree.xpath('//*[@id="north"]/div[2]/ul/li[1]/a/@onclick')[0]
     dcm_no = dcm_no = testpath.split(", '")[1].split("')")[0]
@@ -117,7 +120,7 @@ for key, value in urldict.items():
     print(key+" "+download_url+" 다운 중... "+str(n)+" out of "+str(len(urldict)))
     
     #dcm_no를 구했던 것과 같은 방법으로 첨부파일 다운로드 url을 추출합니다
-    dtest = requests.get(download_url)
+    dtest = requests.get(download_url,headers=headers)
     dtree = html.fromstring(dtest.text)
     
     #각 보고서 당 복수의 첨부파일이 존재하는데, 첨부파일 이름과 함께 저장하기 위해 downloadpath라는 dict를 사용했습니다
