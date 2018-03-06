@@ -6,15 +6,17 @@ Update: 신규로 추가된 [dart_xls.ipynb](https://github.com/seoweon/dart_rep
 ## Directions: 
 
 1. 다음 repository를 클론합니다
-2. (아직 없다면) [DART API Key 발급페이지](http://dart.fss.or.kr/dsap001/apikeyManagement.do;jsessionid=Bs7AWiSzD8YmbBx0Zg3WoEixviKFJ7tL2OmeavY5lXpuYNh4MBmNjvvrgldaazhx.dart2_servlet_engine2)에 접속해 API key를 발급받습니다 (쉬워요)
-3. 동 폴더에 ```api_key.txt```라는 텍스트파일을 만들어 발급받은 KEY를 저장합니다
-4. [dart_crawling.ipynb](https://github.com/seoweon/dart_reports/blob/master/dart_crawling.ipynb)를 Jupyter Notebook에서 열어 실행시킵니다
-5. 회사명 등의 입력사항을 넣으면 파일이 다운로드 됩니다
-6. [dart_xls.ipynb](https://github.com/seoweon/dart_reports/blob/master/dart_xls.ipynb)를 Jupyter Notebook에서 열어 실행시킵니다
-7. 앞서 다운받은 회사의 사업보고서 중 하나를 선택해 회사명을 입력합니다
-8. "재무제표 크롤링"을 통해 연도별 총 자본ㆍ부채 규모 그래프를 확인할 수 있습니다 (아래는 삼성전자 예시)
+2. [requirements.txt](https://github.com/seoweon/dart_reports/blob/master/requirements.txt)를 이용해 필요한 라이브러리를 설치합니다. (```pip install -r requirements.txt```)
+    - 만약 어떠한 이유로 계속 오류가 발생한다면 좀 더 강력한 조치로 [requirements_full.txt](https://github.com/seoweon/dart_reports/blob/master/requirements_full.txt)를 이용해 전체 라이브러리 설치를 시도해봅니다. 
+3. (아직 없다면) [DART API Key 발급페이지](http://dart.fss.or.kr/dsap001/apikeyManagement.do;jsessionid=Bs7AWiSzD8YmbBx0Zg3WoEixviKFJ7tL2OmeavY5lXpuYNh4MBmNjvvrgldaazhx.dart2_servlet_engine2)에 접속해 API key를 발급받습니다 (쉬워요)
+4. 동 폴더에 ```api_key.txt```라는 텍스트파일을 만들어 발급받은 KEY를 저장합니다
+5. [dart_crawling.ipynb](https://github.com/seoweon/dart_reports/blob/master/dart_crawling.ipynb)를 Jupyter Notebook에서 열어 실행시킵니다
+6. 회사명 등의 입력사항을 넣으면 파일이 다운로드 됩니다
+7. [dart_xls.ipynb](https://github.com/seoweon/dart_reports/blob/master/dart_xls.ipynb)를 Jupyter Notebook에서 열어 실행시킵니다
+8. 앞서 다운받은 회사의 사업보고서 중 하나를 선택해 회사명을 입력합니다
+9. "재무제표 크롤링"을 통해 연도별 총 자본ㆍ부채 규모 그래프를 확인할 수 있습니다 (아래는 삼성전자 예시)
 ![](pics/samsung_debt_equity.png)
-9. "손익계산서 크롤링"을 통해 연도별 매출ㆍ영업이익 현황을 확인할 수 있습니다 (아래는 삼성전자 예시)
+10. "손익계산서 크롤링"을 통해 연도별 매출ㆍ영업이익 현황을 확인할 수 있습니다 (아래는 삼성전자 예시)
 ![](pics/samsung_sales_profit.png)
 
 ### 참고한 블로그

@@ -1,0 +1,11 @@
+ipython
+pandas
+requests
+lxml
+re
+utils
+subprocess
+fake_useragent
+os
+matplotlib
+seaborn
